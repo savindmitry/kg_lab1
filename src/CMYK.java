@@ -130,6 +130,7 @@ public class CMYK extends Cpanel{
             int[] val = cmykToRgb(cyan, magenta, yellow, black);
             setColor(new Color(val[0], val[1], val[2]));
             updateScrolls();
+            SwingUtilities.invokeLater(this::updateText);
         }
     }
 
