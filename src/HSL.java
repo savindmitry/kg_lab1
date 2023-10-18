@@ -25,7 +25,7 @@ public class HSL extends Cpanel{
         add(ss);
         add(ls);
 
-        h.getDocument().addDocumentListener(new DocumentListener() {
+        DocumentListener dl = new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 handleTextChange();
@@ -40,41 +40,8 @@ public class HSL extends Cpanel{
             public void changedUpdate(DocumentEvent e) {
                 handleTextChange();
             }
-        });
-        s.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                handleTextChange();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                handleTextChange();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                handleTextChange();
-            }
-        });
-        l.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                handleTextChange();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                handleTextChange();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                handleTextChange();
-            }
-        });
-
-        hs.addAdjustmentListener(new AdjustmentListener() {
+        };
+        AdjustmentListener al = new AdjustmentListener() {
             @Override
             public void adjustmentValueChanged(AdjustmentEvent e) {
                 if (!updatingFromScrollBars) {
@@ -83,27 +50,15 @@ public class HSL extends Cpanel{
                     updateText();
                 }
             }
-        });
-        ss.addAdjustmentListener(new AdjustmentListener() {
-            @Override
-            public void adjustmentValueChanged(AdjustmentEvent e) {
-                if (!updatingFromScrollBars) {
-                    int[] val = hslToRgb(hs.getValue(), ss.getValue(), ls.getValue());
-                    color = new Color(val[0], val[1], val[2]);
-                    updateText();
-                }
-            }
-        });
-        ls.addAdjustmentListener(new AdjustmentListener() {
-            @Override
-            public void adjustmentValueChanged(AdjustmentEvent e) {
-                if (!updatingFromScrollBars) {
-                    int[] val = hslToRgb(hs.getValue(), ss.getValue(), ls.getValue());
-                    color = new Color(val[0], val[1], val[2]);
-                    updateText();
-                }
-            }
-        });
+        };
+
+        h.getDocument().addDocumentListener(dl);
+        s.getDocument().addDocumentListener(dl);
+        l.getDocument().addDocumentListener(dl);
+
+        hs.addAdjustmentListener(al);
+        ss.addAdjustmentListener(al);
+        ls.addAdjustmentListener(al);
     }
     private static int[] hslToRgb(int hue, int saturation, int lightness) {
         double h = hue / 360.0;

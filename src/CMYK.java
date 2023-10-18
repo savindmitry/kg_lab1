@@ -29,7 +29,7 @@ public class CMYK extends Cpanel{
         add(ys);
         add(ks);
 
-        c.getDocument().addDocumentListener(new DocumentListener() {
+        DocumentListener dl = new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 handleTextChange();
@@ -44,96 +44,28 @@ public class CMYK extends Cpanel{
             public void changedUpdate(DocumentEvent e) {
                 handleTextChange();
             }
-        });
-        m.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                handleTextChange();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                handleTextChange();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                handleTextChange();
-            }
-        });
-        y.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                handleTextChange();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                handleTextChange();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                handleTextChange();
-            }
-        });
-        k.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                handleTextChange();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                handleTextChange();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                handleTextChange();
-            }
-        });
-
-        cs.addAdjustmentListener(new AdjustmentListener() {
+        };
+        AdjustmentListener al = new AdjustmentListener() {
             @Override
             public void adjustmentValueChanged(AdjustmentEvent e) {
                 if (!updatingFromScrollBars) {
                     int[] val = cmykToRgb(cs.getValue(), ms.getValue(), ys.getValue(), ks.getValue());
                     color = new Color(val[0], val[1], val[2]);
                     updateText();
+                    updateScrolls();
                 }
             }
-        });
-        ms.addAdjustmentListener(new AdjustmentListener() {
-            @Override
-            public void adjustmentValueChanged(AdjustmentEvent e) {
-                if (!updatingFromScrollBars) {
-                    int[] val = cmykToRgb(cs.getValue(), ms.getValue(), ys.getValue(), ks.getValue());
-                    color = new Color(val[0], val[1], val[2]);
-                    updateText();
-                }
-            }
-        });
-        ys.addAdjustmentListener(new AdjustmentListener() {
-            @Override
-            public void adjustmentValueChanged(AdjustmentEvent e) {
-                if (!updatingFromScrollBars) {
-                    int[] val = cmykToRgb(cs.getValue(), ms.getValue(), ys.getValue(), ks.getValue());
-                    color = new Color(val[0], val[1], val[2]);
-                    updateText();
-                }
-            }
-        });
-        ks.addAdjustmentListener(new AdjustmentListener() {
-            @Override
-            public void adjustmentValueChanged(AdjustmentEvent e) {
-                if (!updatingFromScrollBars) {
-                    int[] val = cmykToRgb(cs.getValue(), ms.getValue(), ys.getValue(), ks.getValue());
-                    color = new Color(val[0], val[1], val[2]);
-                    updateText();
-                }
-            }
-        });
+        };
+
+        c.getDocument().addDocumentListener(dl);
+        m.getDocument().addDocumentListener(dl);
+        y.getDocument().addDocumentListener(dl);
+        k.getDocument().addDocumentListener(dl);
+
+        cs.addAdjustmentListener(al);
+        ms.addAdjustmentListener(al);
+        ys.addAdjustmentListener(al);
+        ks.addAdjustmentListener(al);
     }
 
     private static int[] rgbToCmyk(int red, int green, int blue) {

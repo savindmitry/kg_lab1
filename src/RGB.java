@@ -27,7 +27,7 @@ public class RGB extends Cpanel {
         add(gs);
         add(bs);
 
-        r.getDocument().addDocumentListener(new DocumentListener() {
+        DocumentListener dl = new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 handleTextChange();
@@ -42,67 +42,24 @@ public class RGB extends Cpanel {
             public void changedUpdate(DocumentEvent e) {
                 handleTextChange();
             }
-        });
-        g.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                handleTextChange();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                handleTextChange();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                handleTextChange();
-            }
-        });
-        b.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                handleTextChange();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                handleTextChange();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                handleTextChange();
-            }
-        });
-
-        rs.addAdjustmentListener(new AdjustmentListener() {
+        };
+        AdjustmentListener al = new AdjustmentListener() {
             @Override
             public void adjustmentValueChanged(AdjustmentEvent e) {
                 if (!updatingFromScrollBars) {
-                    color = new Color(rs.getValue(), color.getGreen(), color.getBlue());
+                    color = new Color(rs.getValue(), gs.getValue(), bs.getValue());
                     updateText();
                 }
             }
-        });
-        gs.addAdjustmentListener(new AdjustmentListener() {
-            @Override
-            public void adjustmentValueChanged(AdjustmentEvent e) {
-                if (!updatingFromScrollBars) {
-                    color = new Color(color.getRed(), gs.getValue(), color.getBlue());
-                    updateText();
-                }
-            }
-        });
-        bs.addAdjustmentListener(new AdjustmentListener() {
-            @Override
-            public void adjustmentValueChanged(AdjustmentEvent e) {
-                if (!updatingFromScrollBars) {
-                    color = new Color(color.getRed(), color.getGreen(), bs.getValue());
-                    updateText();
-                }
-            }
-        });
+        };
+
+        r.getDocument().addDocumentListener(dl);
+        g.getDocument().addDocumentListener(dl);
+        b.getDocument().addDocumentListener(dl);
+
+        rs.addAdjustmentListener(al);
+        gs.addAdjustmentListener(al);
+        bs.addAdjustmentListener(al);
     }
 
     private void handleTextChange() {
