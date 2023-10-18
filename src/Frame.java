@@ -38,9 +38,6 @@ public class Frame extends JFrame {
         hsl = new HSL(this);
         cmyk = new CMYK(this);
 
-        JPanel palette = new JPanel();
-
-
         c.fill = GridBagConstraints.BOTH;
         c.insets = new Insets(10, 20, 10 , 20);
         c.weightx = 1;
@@ -57,8 +54,6 @@ public class Frame extends JFrame {
         c.gridwidth = 3;
         c.gridy = 1;
         add(window, c);
-        c.gridy = 2;
-        add(palette, c);
     }
 
     public JPanel getWindow() {
